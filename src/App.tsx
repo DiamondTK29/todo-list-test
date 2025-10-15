@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+import useTodos from './hooks/useTodos.tsx';
+
+
+import TodoForm from './components/TodoForm.tsx';
+import TodoList from './components/TodoList.tsx';
+import FilterButtons from './components/FilterButtons.tsx';
+
+
+const App: React.FC = () => {
+
+  const {
+    filteredTodos,
+    filter,
+    activeCount,
+    setFilter,
+    addTodo,
+    deleteTodo,
+    toggleTodo,
+    editTodo,
+  } = useTodos();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-8 font-sans">
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-4xl font-extrabold text-center text-indigo-700 mb-8 tracking-tight">
+          React Todo List (TS)
+        </h1>
 
-export default App
+
+        <TodoForm addTodo={addTodo} />
+
+
+        <FilterButtons
+          filter={filter}
+          setFilter={setFilter}
+          activeCount={activeCount}
+        />
+
+
+        <TodoList
+          todos={filteredTodos}
+          toggleTodo={toggleTodo}
+          deleteTodo={deleteTodo}
+          editTodo={editTodo}
+        />
+
+
+        <p className="text-center text-xs text-gray-500 mt-8">
+          * Чтобы отредактировать задачу, дважды кликните по тексту, или нажмите на иконку карандаша.
+        </p>
+
+      </div>
+    </div>
+  );
+};
+
+export default App;
